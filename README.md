@@ -22,7 +22,7 @@ TTOKEN(Telegram Token), APIKEY, AUTHDOMAIN, DATABASEURL, PROJECTID, STORAGEBUCKE
 ```
 To get your firebase config:
 
-https://console.firebase.google.com/project/**(yourproject)**/settings/general/web
+https://console.firebase.google.com/project/(yourproject)/settings/general/web
 ## Meta
 
 Daniel Young – [@Jejkukany](https://twitter.com/jejkukany) – young256daniel@gmail.com
