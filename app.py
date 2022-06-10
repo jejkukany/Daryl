@@ -13,6 +13,7 @@ from key import *
 from GoogleNews import GoogleNews
 import pyrebase
 import time
+import random
 
 # ─── API LOGINS AND CONFIG ──────────────────────────────────────────────────────
 
@@ -110,7 +111,6 @@ def timer(update: Update, context: CallbackContext):
 #Work
 def work(update = Update, context = CallbackContext):
     try:
-        import random
         work_list = ['Hacker', 'Softwear', 'Milkman']
         moneyearned = random.randrange(50,200)
         balance = db.child(update.message.from_user.username).get()
@@ -159,57 +159,42 @@ def shop(update=Update, context= CallbackContext):
     try:
         balance = db.child(update.message.from_user.username).get()
         bal = balance.val()['money']
-        try:
-            guncount = balance.val()['gun']
-        except:
-            guncount = '0'
-        try:
-            sunglassescount = balance.val()['sunglasses']
-        except:
-            sunglassescount = '0'
+        #List
         if update.message.text.split(" ")[1] == "list":
+            def count(item):
+                global itemc
+                try:
+                    itemc = balance.val()[item]
+                except:
+                    itemc = '0'
+            count('gun')
+            gunc = itemc 
+            count('sunglasses')
+            sunglassesc = itemc
             update.message.reply_text(f'''
-🛒️Shop🛒️
-    🕶️sunglasses - 10 owned : {sunglassescount}
-    🔫️gun - 1000 owned : {guncount}
-Balance: {bal}$''')
-        elif update.message.text.split(" ")[1] == "buy" and update.message.text.split(" ")[2] == "gun":
-            try:
-                balance.val()['gun']
-                data = {'money' : balance.val()['money'] - 1000}
-                db.child(update.message.from_user.username).update(data)
-                balance = db.child(update.message.from_user.username).get()
-                data = {'gun' : balance.val()['gun'] + 1}
-                db.child(update.message.from_user.username).update(data)
-                update.message.reply_text(f'You bought a gun for 1000$')
-            except:
-                balance = db.child(update.message.from_user.username).get()
-                data = {'money' : balance.val()['money'] - 1000, 'gun':0}
-                db.child(update.message.from_user.username).update(data)
-                balance = db.child(update.message.from_user.username).get()
-                data = {'gun' : balance.val()['gun'] + 1}
-                db.child(update.message.from_user.username).update(data)
-                update.message.reply_text(f'You bought a gun for 1000$')
-        elif update.message.text.split(" ")[1] == "buy" and update.message.text.split(" ")[2] == "sunglasses":
-            try:
-                balance.val()['sunglasses']
-                data = {'money' : balance.val()['money'] - 10}
-                db.child(update.message.from_user.username).update(data)
-                balance = db.child(update.message.from_user.username).get()
-                data = {'sunglasses' : balance.val()['sunglasses'] + 1}
-                db.child(update.message.from_user.username).update(data)
-                update.message.reply_text(f'You bought a sunglasses for 10$')
-            except:
-                balance = db.child(update.message.from_user.username).get()
-                data = {'money' : balance.val()['money'] - 10, 'sunglasses': 0}
-                db.child(update.message.from_user.username).update(data)
-                balance = db.child(update.message.from_user.username).get()
-                data = {'sunglasses' : balance.val()['sunglasses'] + 1}
-                db.child(update.message.from_user.username).update(data)
-                update.message.reply_text(f'You bought a sunglasses for 10$')
+            SHOP
+            GUN {gunc}
+            SUNGLASSES {sunglassesc}''')
+        #Buy
+        elif update.message.text.split(" ")[1] == "buy":
+            def buying(item, price):
+                try:
+                    balance.val()[item]
+                    data = {'money' : balance.val()['money'] - price, f'{item}' : balance.val()[item] + 1}
+                    db.child(update.message.from_user.username).update(data)
+                    update.message.reply_text(f'You bought a {item} for {price}$')
+                except:
+                    data = {'money' : balance.val()['money'] - price, f'{item}' : 1}
+                    db.child(update.message.from_user.username).update(data)
+                    update.message.reply_text(f'You bought a {item} for {price}$')
+            if update.message.text.split(" ")[2] == "gun":
+                buying("gun", 1000)
+            if update.message.text.split(" ")[2] == "sunglasses":
+                buying("sunglasses", 100)
     except:
         ecostart(update, context)
         shop(update, context)
+
 
 # ─── COMMAND HANDLERS ───────────────────────────────────────────────────────────
 
