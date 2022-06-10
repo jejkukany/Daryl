@@ -20,7 +20,7 @@ Make an .env file containing this data:
 ```
 TTOKEN(Telegram Token), APIKEY, AUTHDOMAIN, DATABASEURL, PROJECTID, STORAGEBUCKET, MESSAGINGSENDERID, APPID, MEASUREMENTID
 ```
-To get your firebase firebase config:
+To get your firebase config:
 
 https://console.firebase.google.com/project/(yourproject)/settings/general/web
 ## Meta
