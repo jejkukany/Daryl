@@ -48,7 +48,7 @@ def ecostart(update: Update, context: CallbackContext):
 #Start
 def start(update: Update, context: CallbackContext):
    update.message.reply_text(f'''
-🧐️Daniel_Youngbot🧐️
+🧐️Daryl🧐️
 👨‍🏫️General👨‍🏫️
     🌥️-/news (Whatever)
     🕵‍♂️️-/profile
